@@ -29,8 +29,10 @@ io.on('connection', function (socket) {
   // Client event when he/she controls Spotify
   socket.on('client-control', function (data) {
     if (data.type === 'play') {
-      console.log('- Client %s played %s -', clientId, TRACK);
+      console.log('- Client %s played %s -', clientId, data.track);
       data.track = TRACK;
+    } else if (data.type === 'pause') {
+      console.log('- Client %s paused %s -', clientId, data.track);
     } else if (data.type === 'changedTrack') {
       TRACK = data.track;
     }
