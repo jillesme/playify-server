@@ -21,18 +21,22 @@ io.on('connection', function (socket) {
 
   console.log(CLIENTS);
 
-  // Add connected person to clients array
- setTimeout(function () {
-    socket.emit('server-control', { type: 'pause', params: [] });
-  }, 3000);
-
   socket.on('client-spotify-connected', function () {
     console.log('Client %s is ready', clientId);
     socket.emit('server-ready',{ id: clientId, status: STATUS });
   });
 
   socket.on('client-control', function (data) {
-    socket.emit('server-control', data);
+    if (data.type === 'pause') {
+      console.log('data params: ', data.params);
+    } else if (data.type === 'play') {
+      data.params = {};
+      data.params.track = STATUS.track;
+    } else if (data.type === 'changeTrack') {
+      STATUS.track = data.params;
+    }
+    console.log('Client emited ', data);
+    io.emit('server-control', data);
   });
 
   socket.on('disconnect', function () {
