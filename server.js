@@ -35,6 +35,7 @@ io.on('connection', function (socket) {
       console.log('- Client %s paused %s -', clientId, data.track);
     } else if (data.type === 'changedTrack') {
       TRACK = data.track;
+      console.log('- Client %s played %s -', clientId, data.track);
     }
     io.emit('server-control', data);
   });
