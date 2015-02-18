@@ -31,7 +31,7 @@ io.on('connection', function (socket) {
     if (data.type === 'play') {
       console.log('- Client %s played %s -', clientId, TRACK);
       data.track = TRACK;
-    } else if (data.type === 'changeTrack') {
+    } else if (data.type === 'changedTrack') {
       TRACK = data.track;
     }
     io.emit('server-control', data);
